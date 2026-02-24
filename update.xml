@@ -2,6 +2,6 @@
 <item>
     <version>2.7.8.0</version>
     <url>https://github.com/lanhbuot/TDK14AllRelease/raw/refs/heads/main/TDK14All_v2.7.8.zip</url>
-    <changelog></changelog>
+    <changelog>https://github.com/lanhbuot/TDK14AllRelease</changelog>
     <mandatory>false</mandatory>
 </item>
