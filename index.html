@@ -18,7 +18,7 @@
             min-height: 100vh;
             
             /* Lấy hình nền trực tiếp từ trang chủ game */
-            background-image: url('https://tantayduky.vn/assets/images/cover/main-bg-top-min.jpg'); 
+            background-image: url('https://tantayduky.vn/static/media/bg-header.3b6c2a4f.jpg'); 
             background-size: cover;
             background-position: center top;
             background-attachment: fixed;
@@ -28,7 +28,7 @@
         .overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(10, 10, 26, 0.75); /* Đen trong suốt 75% */
+            background: rgba(10, 10, 26, 0.75);
             z-index: 1;
         }
 
@@ -39,7 +39,7 @@
             width: 90%;
             max-width: 600px;
             background: rgba(20, 20, 35, 0.6);
-            backdrop-filter: blur(8px); /* Hiệu ứng kính mờ */
+            backdrop-filter: blur(8px);
             border: 1px solid rgba(242, 199, 76, 0.3);
             border-radius: 10px;
             padding: 30px;
@@ -54,7 +54,7 @@
         }
 
         .header h1 {
-            color: #f2c74c; /* Vàng gold */
+            color: #f2c74c;
             font-size: 2rem;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -124,17 +124,47 @@
         </div>
 
         <div class="changelog">
-            <span class="version">Phiên bản mới nhất</span>
+            <span class="version" id="version-tag">Đang tải phiên bản...</span>
             <ul>
                 <li>Cập nhật auto Long Cung.</li>
-                <li>Cập nhật giao diện MainForm hiển thị mượt mà hơn.</li>
+                <li>Cập nhật giao diện MainForm.</li>
                 <li>Tối ưu hóa EntityScanner để quét quái nhanh hơn.</li>
                 <li>Tối ưu hóa đồng bộ 2.0.</li>
             </ul>
         </div>
 
-        <a href="https://github.com/lanhbuot/TDK14AllRelease/raw/refs/heads/main/TDK14All.zip" target="_blank" class="btn-download">TẢI NGAY</a>
+        <a href="https://github.com/lanhbuot/TDK14AllRelease/raw/refs/heads/main/TDK14All.zip" target="_blank" class="btn-download" id="download-btn">Tải Bản Cập Nhật</a>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Đường link raw tới file update.xml của bạn
+            const xmlUrl = "https://raw.githubusercontent.com/lanhbuot/TDK14AllRelease/refs/heads/main/update.xml";
+
+            fetch(xmlUrl)
+                .then(response => response.text()) // Đọc nội dung file dưới dạng text
+                .then(data => {
+                    // Chuyển text thành cấu trúc XML
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(data, "application/xml");
+                    
+                    // Lấy giá trị trong thẻ <version>
+                    const version = xmlDoc.getElementsByTagName("version")[0].textContent;
+
+                    // Thay thế text trong nhãn phiên bản
+                    document.getElementById("version-tag").innerText = "Phiên bản mới nhất: v" + version;
+                    
+                    // Thêm số phiên bản vào nút Tải
+                    document.getElementById("download-btn").innerText = "Tải Bản Cập Nhật (v" + version + ")";
+                })
+                .catch(error => {
+                    console.error("Lỗi khi tải XML:", error);
+                    // Nếu lỗi (ví dụ rớt mạng), hiển thị text mặc định an toàn
+                    document.getElementById("version-tag").innerText = "Phiên bản mới nhất";
+                    document.getElementById("download-btn").innerText = "Tải Bản Cập Nhật";
+                });
+        });
+    </script>
 
 </body>
 </html>
